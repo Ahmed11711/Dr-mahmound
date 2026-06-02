@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Requests\Admin\Lessons;
+
+use App\Http\Requests\BaseRequest\BaseRequest;
+
+class LessonsUpdateRequest extends BaseRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'chapter_id' => 'sometimes|required|exists:chapters,id|display_field:name',
+            'title' => 'sometimes|required|string|max:255',
+            'video_path' => 'sometimes',
+            'is_free' => 'sometimes|required|integer',
+            'info' => 'sometimes|nullable|string',
+            'order' => 'sometimes|required|integer',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'chapter_id.required' => 'The chapter id field is required.',
+            'chapter_id.exists' => 'The selected chapter id is invalid.',
+            'title.required' => 'The title field is required.',
+            'title.max' => 'The title may not be greater than 255 characters.',
+            'video_path.required' => 'The video path field is required.',
+            'video_path.max' => 'The video path may not be greater than 255 characters.',
+            'is_free.required' => 'The is free field is required.',
+            'order.required' => 'The order field is required.',
+        ];
+    }
+}
