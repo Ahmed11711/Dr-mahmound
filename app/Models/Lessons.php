@@ -17,5 +17,14 @@ class Lessons extends Model
     {
         return $this->belongsTo(Chapter::class, 'chapter_id');
     }
+    // app/Models/Lessons.php
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'lesson_id');
+    }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'lesson_id');
+    }
 }
