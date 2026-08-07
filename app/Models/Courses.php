@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use \App\Models\UserSubscribe;
 use Illuminate\Database\Eloquent\Model;
 
 class Courses extends Model
@@ -18,6 +19,11 @@ class Courses extends Model
 
     public function userSubscribes()
     {
-        return $this->hasMany(\App\Models\UserSubscribe::class, 'course_id');
+        return $this->hasMany(UserSubscribe::class, 'course_id');
+    }
+    // في app/Models/Courses.php
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'course_id');
     }
 }

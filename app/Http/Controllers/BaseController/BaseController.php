@@ -231,8 +231,9 @@ abstract class BaseController extends Controller
               ->delete(str_replace('/storage/', '', $existingRecord->$field));
           }
 
-          $validated[$field] = "/storage/" . $path;
-        } catch (\Throwable $e) {
+$validated[$field] = $this->uploadDisk === 'public'
+    ? "/storage/" . $path
+    : $path;        } catch (\Throwable $e) {
           Log::error("File upload failed for field [{$field}] in {$this->collectionName}: " . $e->getMessage());
         }
       }

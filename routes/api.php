@@ -3,7 +3,10 @@
 use App\Http\Controllers\Admin\UserDeposite\UserDepositeController;
 use App\Http\Controllers\Admin\UserOrder\UserOrderController;
 use App\Http\Controllers\Admin\UserSubscribe\UserSubscribeController;
+use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Courses\CorusesController;
+use App\Http\Controllers\Api\LessonStream\LessonStreamController;
+use App\Http\Controllers\Api\Note\NoteController;
 use App\Http\Controllers\Api\Station\StationController;
 use App\Http\Controllers\Auth\CreateAcountController;
 use App\Http\Controllers\Auth\LoginAccountController;
@@ -37,7 +40,9 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+Route::get('/lessons/{id}/stream', [LessonStreamController::class, 'stream'])
+    ->name('lesson.stream')
+    ->middleware('signed');
 Route::group(['prefix' => 'v1/app/auth'], function () {
 
     // Public Routes
@@ -67,9 +72,21 @@ Route::group(['prefix' => 'v1/app/auth'], function () {
 
 Route::get('courses', [CorusesController::class, 'index']);
 Route::get('courses/{id}', [CorusesController::class, 'show']);
+
 Route::group(['middleware' => CheckJwtToken::class], function () {
     Route::apiResource('user_subscribes', UserSubscribeController::class)->names('user_subscribe');
     Route::get('/user/my-courses', [UserSubscribeController::class, 'myCourses']);
+
+    // ── Comments (على الكورس أو على درس معين) ──
+    Route::get('courses/{course}/comments', [CommentController::class, 'index']);
+    Route::post('courses/{course}/comments', [CommentController::class, 'store']);
+    Route::delete('comments/{comment}', [CommentController::class, 'destroy']);
+
+    // ── Notes (خاصة باليوزر، مرتبطة بدرس) ──
+    Route::get('lessons/{lesson}/notes', [NoteController::class, 'index']);
+    Route::post('lessons/{lesson}/notes', [NoteController::class, 'store']);
+    Route::put('notes/{note}', [NoteController::class, 'update']);
+    Route::delete('notes/{note}', [NoteController::class, 'destroy']);
 });
 
 require __DIR__ . '/admin.php';

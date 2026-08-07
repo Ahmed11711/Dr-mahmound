@@ -14,13 +14,12 @@ class LessonsController extends BaseController
     {
         parent::__construct();
 
-        $this->initService(
-            repository: $repository,
-            collectionName: 'Lessons',
-            fileFields: ['video_path']
-
-
-        );
+    $this->initService(
+    repository: $repository,
+    collectionName: 'Lessons',
+    fileFields: ['video_path'],
+    uploadDisk: 'private'
+);
 
         $this->storeRequestClass = LessonsStoreRequest::class;
         $this->updateRequestClass = LessonsUpdateRequest::class;
