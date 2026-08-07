@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserSubscribe\UserSubscribeStoreRequest;
 use App\Http\Requests\Admin\UserSubscribe\UserSubscribeUpdateRequest;
 use App\Http\Resources\Admin\UserSubscribe\UserSubscribeResource;
+use App\Models\Courses;
 use App\Repositories\UserSubscribe\UserSubscribeRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class AllSubscribeController extends BaseController
             collectionName: 'UserSubscribe',
             fileFields: ['receipt_image']
         );
-        $this->withRelationships = ['user:id,name,email'];
+        $this->withRelationships = ['user:id,name,email', 'course:id,title'];
         $this->storeRequestClass  = UserSubscribeStoreRequest::class;
         $this->updateRequestClass = UserSubscribeUpdateRequest::class;
         $this->resourceClass      = UserSubscribeResource::class;

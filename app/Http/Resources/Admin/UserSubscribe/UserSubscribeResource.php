@@ -22,6 +22,7 @@ class UserSubscribeResource extends JsonResource
         }
         $data['receipt_image'] = $this->receipt_image ? asset($this->receipt_image) : null;
         $data['user'] = $this->whenLoaded('user');
+        $data['course'] = $this->whenLoaded('course');
 
         return $data;
     }
